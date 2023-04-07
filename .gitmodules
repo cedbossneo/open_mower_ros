@@ -26,3 +26,6 @@
 [submodule "src/lib/xbot_remote"]
 	path = src/lib/xbot_remote
 	url = https://github.com/ClemensElflein/xbot_remote
+[submodule "src/lib/rosserial"]
+	path = src/lib/rosserial_server
+	url = https://github.com/tongtybj/rosserial
