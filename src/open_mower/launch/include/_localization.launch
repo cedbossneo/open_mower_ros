@@ -1,6 +1,7 @@
 <launch>
     <arg name="use_legacy_localization" default="False"/>
-    <group unless="$(arg use_legacy_localization)">
+    <arg name="use_mims_localization" default="True"/>
+    <group unless="$(eval arg('use_legacy_localization') or arg('use_mims_localization'))">
         <node pkg="xbot_positioning" type="xbot_positioning" name="xbot_positioning" output="screen" required="true">
             <remap from="~imu_in" to="/imu/data_raw"/>
             <remap from="~wheel_ticks_in" to="/mower/wheel_ticks"/>
@@ -9,6 +10,14 @@
             <param name="max_gps_accuracy" value="0.2"/>
             <param name="antenna_offset_x" value="$(env OM_ANTENNA_OFFSET_X)"/>
             <param name="antenna_offset_y" value="$(env OM_ANTENNA_OFFSET_Y)"/>
+        </node>
+    </group>
+    <group if="$(arg use_mims_localization)">
+         <node name="ldlidar_stl_ros" pkg="ldlidar_stl_ros" type="ld19.launch" output="screen" clear_params="true" required="true">
+            <param name="port_name" default="/dev/ttyS4"/>
+         </node>
+         <node name="mins_subscribe" pkg="mins" type="subscribe" output="screen" clear_params="true" required="true">
+            <param name="config_path" type="str" value="$(find open_mower)/params/mims/config.yaml" />
         </node>
     </group>
     <group if="$(arg use_legacy_localization)">

@@ -25,3 +25,9 @@
 [submodule "src/lib/xbot_remote"]
 	path = src/lib/xbot_remote
 	url = https://github.com/ClemensElflein/xbot_remote
+[submodule "src/lib/MINS"]
+	path = src/lib/MINS
+	url = https://github.com/rpng/MINS
+[submodule "src/lib/ldlidar_stl_ros"]
+	path = src/lib/ldlidar_stl_ros
+	url = https://github.com/ldrobotSensorTeam/ldlidar_stl_ros
