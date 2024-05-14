@@ -25,10 +25,15 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.builder}}
     strategy:
       matrix:
         docker_build_arch: [ linux/arm64 , linux/amd64 ]
+        include:
+          - docker_build_arch: linux/arm64
+            builder: buildjet-4vcpu-ubuntu-2204-arm
+          - docker_build_arch: linux/amd64
+            builder: buildjet-4vcpu-ubuntu-2204
     steps:
       # Get the repository's code
       - name: Checkout
@@ -94,7 +99,7 @@ jobs:
           retention-days: 1
 
   merge:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.builder}}
     needs:
       - build
     steps:
