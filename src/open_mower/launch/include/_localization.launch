@@ -1,7 +1,7 @@
 <launch>
     <arg name="use_legacy_localization" default="False"/>
-    <arg name="use_slam_localization" default="False"/>
-    <group unless="$(eval arg('use_legacy_localization')">
+    <arg name="use_slam_localization" default="True"/>
+    <group unless="$(eval arg('use_legacy_localization'))">
         <node pkg="xbot_positioning" type="xbot_positioning" name="xbot_positioning" output="screen" required="true">
             <remap from="~imu_in" to="/imu/data_raw"/>
             <remap from="~wheel_ticks_in" to="/mower/wheel_ticks"/>
@@ -17,7 +17,7 @@
            <node name="LD19" pkg="ldlidar_stl_ros" type="ldlidar_stl_ros_node" output="screen" required="true">
             <param name="product_name" value="LDLiDAR_LD19"/>
             <param name="topic_name" value="/scan"/>
-            <param name="frame_id" value="lidar_link"/>
+            <param name="frame_id" value="base_laser"/>
             <param name="port_name" value ="/dev/lidar"/>
             <param name="port_baudrate" value ="230400"/>
             <!-- Set laser scan directon: -->
@@ -34,13 +34,8 @@
             <param name="angle_crop_min" type="double" value="135.0"/>
             <param name="angle_crop_max" type="double" value="225.0"/>
          </node>
-        <node pkg="tf" type="static_transform_publisher" name="laser_to_base_link" args="0 0 0 0 0 0 base_link laser 100" />
+        <node name="base_to_laser" pkg="tf" type="static_transform_publisher"  args="0.0 0.0 0.18 0 0.0 0.0 base_link base_laser 50"/>
 
-        <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" respawn="false">
-            <param name="base_frame" value="base_link"/>
-            <param name="odom_frame" value="odom"/>
-            <remap from="scan" to="/scan"/>
-        </node>
         <node name="amcl"
         pkg="amcl"
         type="amcl"

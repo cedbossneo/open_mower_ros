@@ -8,3 +8,10 @@ global_costmap:
   rolling_window: false
   resolution: 0.10
   map_topic: mower_map_service/map
+  obstacle_layer:
+    observation_sources: scan
+    scan:
+      data_type: LaserScan
+      topic: /scan
+      marking: true
+      clearing: true

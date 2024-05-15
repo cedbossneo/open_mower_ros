@@ -10,3 +10,10 @@ local_costmap:
   resolution: 0.15
   static_map: true
   map_topic: mower_map_service/map
+  obstacle_layer:
+    observation_sources: scan
+    scan:
+      data_type: LaserScan
+      topic: /scan
+      marking: true
+      clearing: true
