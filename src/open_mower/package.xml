@@ -34,8 +34,11 @@
   <exec_depend>imu_filter_madgwick</exec_depend>
   <exec_depend>twist_mux</exec_depend>
   <exec_depend>rtcm_msgs</exec_depend>
-  <exec_depend>mins</exec_depend>
   <exec_depend>ldlidar_stl_ros</exec_depend>
+  <exec_depend>gmapping</exec_depend>
+  <exec_depend>amcl</exec_depend>
+  <exec_depend>slam_gmapping</exec_depend>
+  <exec_depend>laser_filters</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

@@ -29,7 +29,7 @@ if ! ssh -o ConnectTimeout=2 $username@$host exit > /dev/null; then
     exit 1
 fi
 
-ssh $username@$host "sudo killall socat || true"
+ssh $username@$host "sudo pkill socat || true"
 
 #trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
 
@@ -38,16 +38,12 @@ sshAndSocatSerialToTCP() {
     # $2 = baud rate
     # $3 = tcp port
 
-    ssh -o ExitOnForwardFailure=yes $username@$host "true && sudo socat TCP-LISTEN:$3,reuseaddr,fork FILE:/dev/$1,b$2,cs8,raw,echo=0" & \
+    ssh -o ExitOnForwardFailure=yes $username@$host "true && sudo socat TCP-LISTEN:$4,reuseaddr,fork FILE:/dev/$1,b$3,cs8,raw,echo=0" & \
         sleep 1 && \
-        sudo socat pty,link=/dev/$1,raw,group-late=dialout,mode=660 tcp:$host:$3 && fg
+        sudo socat pty,link=/dev/$2,raw,group-late=dialout,mode=660 tcp:$host:$4
 }
 
-killall socat > /dev/null || true
+sudo killall socat > /dev/null || true
 
-sshAndSocatSerialToTCP ttyAMA0 115200 65000 & \
-sshAndSocatSerialToTCP ttyAMA1 921600 65001 & \
-sshAndSocatSerialToTCP ttyAMA2 115200 65002 & \
-sshAndSocatSerialToTCP ttyAMA3 115200 65003 & \
-sshAndSocatSerialToTCP ttyAMA4 115200 65004 && fg
-&& fg
+#sshAndSocatSerialToTCP ttyACM0 gps 460800 65001 &
+sshAndSocatSerialToTCP ttyS4 lidar 230400 65002 &

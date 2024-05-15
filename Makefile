@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-.PHONY: clean build submodules deps rviz rqt openmower sim
+.PHONY: clean build submodules deps rviz rqt run-openmower run-sim
 
 submodules:
 	git submodule init
@@ -17,21 +17,13 @@ clean:
 	rm -Rf build* devel*
 
 rviz:
-	export ROS_MASTER_URI=http://127.0.0.1:11311
-	rviz
+	export ROS_MASTER_URI=http://127.0.0.1:11311 &&	rviz
 
 rqt:
-	export ROS_MASTER_URI=http://127.0.0.1:11311
-	rqt
+	export ROS_MASTER_URI=http://127.0.0.1:11311 &&	rqt
 
-openmower:
-	export ROS_MASTER_URI=http://127.0.0.1:11311
-	source devel_isolated/setup.bash
-	source .devcontainer/mower_config.sh
-	roslaunch open_mower open_mower.launch
+run-openmower:
+	export ROS_MASTER_URI=http://127.0.0.1:11311 &&	source devel_isolated/setup.bash &&	source .devcontainer/mower_config.sh &&	roslaunch open_mower open_mower.launch
 
-sim:
-	export ROS_MASTER_URI=http://127.0.0.1:11311
-	source devel_isolated/setup.bash
-	source .devcontainer/mower_config.sh
-	roslaunch open_mower sim_mower_logic.launch
+run-sim:
+	export ROS_MASTER_URI=http://127.0.0.1:11311 && source devel_isolated/setup.bash &&	source .devcontainer/mower_config.sh &&	roslaunch open_mower sim_mower_logic.launch
